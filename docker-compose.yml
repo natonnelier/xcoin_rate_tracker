@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: xcoin_rate_tracker_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 4321:4321
+  app:
+    build: .
+    command: ["go", "run", "server.go"]
+    volumes:
+      - .:/go/src/xcoin_rate_tracker
+    ports:
+      - "1323:1323"
+    depends_on:
+      - db
+    links:
+      - db
